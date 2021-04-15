@@ -38,4 +38,9 @@ class Validator
 
         return ValidationResult::createValid();
     }
+
+    public function isValid(string $value): bool
+    {
+        return $this->validate($value)->isValid();
+    }
 }

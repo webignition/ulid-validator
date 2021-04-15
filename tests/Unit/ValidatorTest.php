@@ -52,4 +52,45 @@ class ValidatorTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider isValidDataProvider
+     */
+    public function testIsValid(string $value, bool $expectedIsValid): void
+    {
+        self::assertEquals($expectedIsValid, (new Validator())->isValid($value));
+    }
+
+    /**
+     * @return array[]
+     */
+    public function isValidDataProvider(): array
+    {
+        return [
+            'invalid: empty' => [
+                'value' => '',
+                'expectedIsValid' => false,
+            ],
+            'invalid: too short' => [
+                'value' => 'a',
+                'expectedIsValid' => false,
+            ],
+            'invalid: too long' => [
+                'value' => 'aaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                'expectedIsValid' => false,
+            ],
+            'invalid: contains invalid characters' => [
+                'value' => '$aaaaaaaaaaaaaaaaaaaaaaaaa',
+                'expectedIsValid' => false,
+            ],
+            'invalid: too large' => [
+                'value' => '8ZZZZZZZZZZZZZZZZZZZZZZZZZ',
+                'expectedIsValid' => false,
+            ],
+            'valid' => [
+                'value' => '01F3AVQ2YHFVQ4E0STHE4Z8KXH',
+                'expectedIsValid' => true,
+            ],
+        ];
+    }
 }
